@@ -41,6 +41,12 @@ int main()
         int *left_arr = (int*)(malloc(n * sizeof(int)));
         int *right_arr = (int*)(malloc(n * sizeof(int)));
 
+        if (left_arr == NULL || right_arr == NULL)
+        {
+                perror("malloc failed");
+                return 1;
+        }
+
         for (int i = 0; i < n; i++)
         {
                 fscanf(fp, "%d %d", &left_arr[i], &right_arr[i]);
