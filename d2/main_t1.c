@@ -5,6 +5,41 @@
 #define MAX_LINE_LENGTH 40
 #define MAX_NUMBERS 20
 
+int is_safe(int numbers[], int count)
+{
+    int increasing = 1;
+    int decreasing = 1;
+    int valid_distance = 1;
+
+    /* check if monotonic */
+    for (int i = 0; i < count - 1; i++)
+    {
+        if (numbers[i] < numbers[i + 1])
+        {
+            increasing = 0;
+        } 
+        else if (numbers[i] > numbers[i + 1])
+        {
+            decreasing = 0;
+        }
+
+        /* distance between two numbers */
+        int diff = abs(numbers[i] - numbers[i + 1]);
+
+        /* check if the difference is between 1 and 3 */
+        if (diff < 1 || diff > 3)
+        {
+            valid_distance = 0;
+        }
+    }
+    if (valid_distance && (increasing || decreasing))
+    {
+        return 1; // safe
+    }
+
+    return 0;
+}
+
 int main()
 {
     FILE *fp;
@@ -37,37 +72,10 @@ int main()
             token = strtok(NULL, " \n");
         }
 
-        int increasing = 1;
-        int decreasing = 1;
-        int valid_distance = 1;
-
-        /* check if monotonic */
-        for (int i = 0; i < count - 1; i++)
-        {
-            if (numbers[i] < numbers[i + 1])
-            {
-                increasing = 0;
-            } 
-            else if (numbers[i] > numbers[i + 1])
-            {
-                decreasing = 0;
-            }
-
-            /* distance between two numbers */
-            int diff = abs(numbers[i] - numbers[i + 1]);
-
-            /* check if the difference is between 1 and 3 */
-            if (diff < 1 || diff > 3)
-            {
-                valid_distance = 0;
-                break;   
-            }
-        }
-        if (valid_distance && (increasing || decreasing))
+        if (is_safe(numbers, count))
         {
             safe_functions++;
         }
-
     }
 
     printf("Safe functions: %d\n", safe_functions);
