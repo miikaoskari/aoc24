@@ -100,5 +100,6 @@ int main()
         }
     }
 
+    fclose(fp);
     printf("Safe functions: %d\n", safe_functions);
 }
